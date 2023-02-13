@@ -32,11 +32,6 @@ class AUTO_NEWS:
             dict_new['news_text'] = link_text
             dict_new['news_date'] = link_date
             dict_new['news_link'] = f'{self.domain}{link_item.get("href")}'
-            url = f'{self.domain}{link_item.get("href")}'
-            response = requests.get(url)
-            soup = BeautifulSoup(response.text, 'html.parser')
-            link_img = soup.find('img', class_ = 'sX8xPdQU')
-            print(link_img)
             self.news.append(dict_new)
         with open(os.path.join(self.dir,'news_file.txt'), 'w', encoding='utf8') as f:
             f.write(str(self.news))
