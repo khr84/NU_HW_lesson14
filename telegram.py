@@ -1,6 +1,7 @@
 import telebot
 import get_html_news
 import os
+import speedtest
 from datetime import datetime
 
 TOKEN = '6219533363:AAHKMeXcVIZlUvNWdyG1LCYpW-HEagB-Zfw'
@@ -65,6 +66,26 @@ def get_news(message):
 		except:
 			bot.reply_to(message, f'"Date in wrong format, try again" {dt}')
 	exist_search = False
+
+@bot.message_handler(commands=['speedtest'])
+def get_speedtest(message):
+	inet = speedtest.Speedtest()
+	download = float(str(inet.download())[0:2] + "."
+					 + str(round(inet.download(), 2))[1]) * 0.125
+	uploads = float(str(inet.upload())[0:2] + "."
+					+ str(round(inet.download(), 2))[1]) * 0.125
+	bot.reply_to(message, f'Dowload speed {download}, Upload speed {uploads}')
+
+@bot.message_handler(content_types=['sticker'])
+def reply_sticker(message):
+	text = message.sticker.emoji
+	bot.reply_to(message, text)
+
+@bot.message_handler(content_types=['text'])
+def reply_text(message):
+	text = message.text[::-1]
+	bot.reply_to(message, text)
+
 
 
 bot.polling()
